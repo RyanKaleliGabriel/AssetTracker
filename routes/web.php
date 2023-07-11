@@ -16,28 +16,32 @@ use App\Http\Controllers\AssetTrackerController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 
-Route::get('/devices', [AssetTrackerController::class, 'alldevices'])->name('devices');
+Route::get('devices', [AssetTrackerController::class, 'alldevices'])->name('devices');
 Route::get('managedevices', [AssetTrackerController::class, 'managedevices'])->name('managedevices');
 Route::get('adddevice', [AssetTrackerController::class , 'adddevice'])->name('adddevice');
 Route::get('editdevice', [AssetTrackerController::class, 'editdevice'])->name('editdevice');
+Route::post('postdevice', [AssetTrackerController::class, 'postdevice'])->name('postdevice');
 
-Route::get('/departments', [AssetTrackerController::class, 'alldepartments'])->name('departments');
+Route::get('departments', [AssetTrackerController::class, 'alldepartments'])->name('departments');
 Route::get('managedepartments', [AssetTrackerController::class , 'managedepartments'])->name('managedepartments');
 Route::get('adddepartment', [AssetTrackerController::class, 'adddepartment'])->name('adddepartment');
 Route::get('editdepartment', [AssetTrackerController::class, 'editdepartment'])->name('editdepartment');
+Route::post('postdepartment', [AssetTrackerController::class, 'postdepartment'])->name('postdepartment');
 
 
-Route::get('/students', [AssetTrackerController::class, 'allstudents'])->name('students');
+Route::get('students', [AssetTrackerController::class, 'allstudents'])->name('students');
 Route::get('managestudents', [AssetTrackerController::class, 'managestudents'])->name('managestudents');
 Route::get('addstudent', [AssetTrackerController::class, 'addstudent'])->name('addstudent');
 Route::get('editstudent', [AssetTrackerController::class, 'editstudent'])->name('editstudent');
+Route::post('poststudent', [AssetTrackerController::class, 'poststudent'])->name('poststudent');
 
 
-Route::get('/categories', [AssetTrackerController::class, 'managecategories'])->name('managecategories');
+Route::get('categories', [AssetTrackerController::class, 'managecategories'])->name('managecategories');
 Route::get('addcategory', [AssetTrackerController::class, 'addcategory'])->name('addcategory');
 Route::get('editcategory', [AssetTrackerController::class, 'editcategory'])->name('editcategory');
+Route::post('postcategory', [AssetTrackerController::class, 'postcategory'])->name('postcategory');
 
 

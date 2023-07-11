@@ -24,20 +24,21 @@
           <h5 class="card-title">Add new Device</h5>
 
           <!-- Multi Columns Form -->
-          <form class="row g-3">
+          <form class="row g-3" action="{{route('postdevice')}}" method="post">
+            @csrf
             <div class="col-md-12">
-              <label for="inputName5" class="form-label">Device Model Number</label>
-              <input type="text" class="form-control" id="inputName5">
+              <input placeholder="Enter Device Model Number..." type="text" name="modelnumber" class="form-control" id="inputName5">
             </div>
             <div class="col-md-6">
-              <label for="inputEmail5" class="form-label">Student Admission Number</label>
-              <input type="email" class="form-control" id="inputEmail5">
+            <label for="inputState" class="form-label">Student Id</label>
+              <input placeholder="Enter Student Id..." type="text" name="studentid" class="form-control" id="inputEmail5">
             </div>
             <div class="col-md-6">
                 <label for="inputState" class="form-label">Device Type</label>
-                <select id="inputState" class="form-select">
-                  <option selected>Choose...</option>
-                  <option>...</option>
+                <select id="inputState" name="categoryid" class="form-select">
+                  @foreach($categories as $category)
+                  <option value="{{$category->id}}">{{}}</option>
+                  @endforeach
                 </select>
             </div>
             <div class="text-center">

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Department;
+use App\Models\Student;
+use App\Models\Device;
+use Illuminate\Support\Facades\Redirect;
 
 class AssetTrackerController extends Controller
 {
@@ -18,11 +23,23 @@ class AssetTrackerController extends Controller
     }
     public function adddevice()
     {
-        return view('Devices.add');
+        $categories = Category::all();
+        return view('Devices.add', compact('categories'));
     }
     public function editdevice()
     {
         return view('Devices.edit');
+    }
+
+    public function postdevice(Request $request)
+    {
+        $device = Device::create([
+            'modelnumber'=>$request->modelnumber,
+            'studentid'=>$request->studentid,
+            'type'=>$request->categoryid
+        ]);
+
+        return Redirect::route('devices');
     }
     //end of Devices Methods
 
@@ -45,6 +62,15 @@ class AssetTrackerController extends Controller
     {
         return view('Department.edit');
     }
+
+    public function postdepartment(Request $request)
+    {
+        $department = Department::create([
+            'name'=>$request->deptname
+        ]);
+
+        return Redirect::route('departments');
+    }
     //end of Department Methods
 
 
@@ -66,6 +92,15 @@ class AssetTrackerController extends Controller
     {
         return view('Student.edit');
     }
+
+    public function poststudent(Request $request)
+    {
+        $student = Student::create([
+            'name'=>$request->stdname,
+            'departmentid'=>$request->deptid
+        ]);
+        return Redirect::route('students');
+    }
     //end of Student Methods
 
     //Start of categories Methods    
@@ -80,6 +115,14 @@ class AssetTrackerController extends Controller
     public function editcategory()
     {
         return view('Category.edit');
+    }
+
+    public function postcategory(Request $request)
+    {
+        $category = Category::create([
+            'name'=>$request->devicetype
+        ]);
+        return Redirect::route('managecategories');
     }
     //end of Category Methods
 

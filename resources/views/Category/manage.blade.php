@@ -6,41 +6,34 @@
 
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Buttons</h1>
+    <h1>Device Categories</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item">Components</li>
-        <li class="breadcrumb-item active">Buttons</li>
+        <li class="breadcrumb-item">Device</li>
+        <li class="breadcrumb-item active">Manage Categories</li>
       </ol>
     </nav>
   </div>
   <!-- End Page Title -->
 
-  <section class="section">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body" style="align-items: center; text-align: center">
-            <h5 class="card-title">Manage Devices</h5>
-            <a href="{{route('addcategory')}}">
-              <button type="button" class="btn btn-outline-primary">
-                Add Device
-                <i class="bi bi-plus"></i>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Table with hoverable rows</h5>
+            <h5 class="card-title">Manage all Device Categories</h5>
+
+            <a href="{{route('addcategory')}}" style="float: right;">
+              <button type="button" class="btn btn-outline-primary">
+                Add Device Category
+                <i class="bi bi-plus"></i>
+              </button>
+            </a>
+            <br>
+            <br>
 
             <!-- Table with stripped rows -->
             <table class="table datatable">

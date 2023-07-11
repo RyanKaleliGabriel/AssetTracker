@@ -5,12 +5,12 @@
 <main id="main" class="main">
 
 <div class="pagetitle">
-  <h1>General Tables</h1>
+  <h1>Students</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-      <li class="breadcrumb-item">Tables</li>
-      <li class="breadcrumb-item active">General</li>
+      <li class="breadcrumb-item">Students</li>
+      <li class="breadcrumb-item active">All</li>
     </ol>
   </nav>
 </div><!-- End Page Title -->
@@ -20,7 +20,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Table with hoverable rows</h5>
+          <h5 class="card-title">Record of all students</h5>
 
            <!-- Table with stripped rows -->
            <table class="table datatable">

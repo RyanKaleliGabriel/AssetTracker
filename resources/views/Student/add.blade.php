@@ -7,12 +7,12 @@
 <main id="main" class="main">
 
 <div class="pagetitle">
-  <h1>Form Layouts</h1>
+  <h1>Student Module</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-      <li class="breadcrumb-item">Forms</li>
-      <li class="breadcrumb-item active">Layouts</li>
+      <li class="breadcrumb-item">Student</li>
+      <li class="breadcrumb-item active">Add</li>
     </ol>
   </nav>
 </div><!-- End Page Title -->
@@ -22,22 +22,17 @@
 
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Add new Student</h5>
+          <h5 class="card-title">Register new Student</h5>
 
           <!-- Multi Columns Form -->
-          <form class="row g-3">
+          <form class="row g-3" action="{{route('poststudent')}}" method="post">
             <div class="col-md-12">
-              <label for="inputName5" class="form-label">Full Name</label>
-              <input type="text" class="form-control" id="inputName5">
+            
+              <input placeholder="Enter student full name..." type="text" name="stdname" class="form-control" id="inputName5">
             </div>
-            <div class="col-md-6">
-              <label for="inputEmail5" class="form-label">Adminssion Number</label>
-              <input type="email" class="form-control" id="inputEmail5">
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label for="inputState" class="form-label">Department</label>
-                <select id="inputState" class="form-select">
-                  <option selected>Choose...</option>
+                <select name="deptid" id="inputState" class="form-select">
                   <option>...</option>
                 </select>
             </div>

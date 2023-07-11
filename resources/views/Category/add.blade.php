@@ -6,12 +6,13 @@
 <main id="main" class="main">
 
 <div class="pagetitle">
-  <h1>Form Layouts</h1>
+  <h1>Device Types</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-      <li class="breadcrumb-item">Forms</li>
-      <li class="breadcrumb-item active">Layouts</li>
+      <li class="breadcrumb-item">Device</li>
+      <li class="breadcrumb-item active">Category</li>
+      <li class="breadcrumb-item active">Add</li>
     </ol>
   </nav>
 </div><!-- End Page Title -->
@@ -21,15 +22,16 @@
 
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Add new Device</h5>
+          <h5 class="card-title">Add new Device type</h5>
 
           <!-- Multi Columns Form -->
-          <form class="row g-3">
+          <form class="row g-3" method="post" action="{{route('postcategory')}}">
+          @csrf
             <div class="col-md-12">
-              <input placeholder="Device Type Name..." type="text" class="form-control" id="inputName5">
+              <input name="devicetype" placeholder="Device Type Name..." type="text" class="form-control" id="inputName5">
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-outline-primary">Add Device</button>
+              <button type="submit" class="btn btn-outline-primary">Add Device Type</button>
             </div>
           </form><!-- End Multi Columns Form -->
         </div>
