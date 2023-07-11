@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('modelnumber');
             $table->string('type');
-            
+            $table->string('studentid');
         });
     }
 

@@ -13,10 +13,16 @@ class Device extends Model
     protected $fillable = [
         'modelnumber',
         'type',
+        'studentid'
     ];
 
     public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }
