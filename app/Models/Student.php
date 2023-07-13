@@ -13,7 +13,7 @@ class Student extends Model
 
     protected $fillable=[
         'name',
-        'departmentid',
+        'department_id',
     ];
 
     public function department(): BelongsTo

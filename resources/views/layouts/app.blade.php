@@ -25,7 +25,9 @@
     <link href="{{asset('/assets/vendor/quill/quill.bubble.css')}}" rel="stylesheet">
     <link href="{{asset('/assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
     <link href="{{asset('/assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <!-- Template Main CSS File -->
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
 
@@ -40,6 +42,7 @@
 
 <body>
 
+@include('sweetalert::alert')
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -173,6 +176,7 @@
     </aside><!-- End Sidebar-->
 
     @yield('content')
+   
 
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
@@ -191,6 +195,7 @@
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{asset('/assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
     <script src="{{asset('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('/assets/vendor/chart.js/chart.umd.js')}}"></script>
@@ -199,9 +204,17 @@
     <script src="{{asset('/assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
     <script src="{{asset('/assets/vendor/tinymce/tinymce.min.js')}}"></script>
     <script src="{{asset('/assets/vendor/php-email-form/validate.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- Template Main JS File -->
     <script src="{{asset('assets/js/main.js')}}"></script>
+
+    <script>
+        $(".js-example-responsive").select2({
+            width: 'resolve' // need to override the changed default
+        })
+    </script>
 
 </body>
 

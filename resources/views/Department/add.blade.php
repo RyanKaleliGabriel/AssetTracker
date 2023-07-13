@@ -34,9 +34,48 @@
                   <input placeholder="Enter Department Name..." name="deptname" type="text" class="form-control" id="inputName5">
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn btn-outline-primary">Register</button>
+                  <button style="float: right;" type="submit" class="btn btn-outline-primary confrim">Register</button>
                 </div>
               </form><!-- End Multi Columns Form -->
+              <script src="sweetalert2.all.min.js"></script>
+            <script>
+              // Get all elements with the 'confirm' class
+              var confirmButtons = document.getElementsByClassName('confirm');
+
+              // Iterate over each confirm button
+              Array.from(confirmButtons).forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                  // Get the closest form to the button
+                  var form = button.closest('form');
+
+                  // Prevent the default form submission
+                  event.preventDefault();
+
+                  // Configure SweetAlert alert as you wish
+                  Swal.fire({
+                    title: 'Proceed to add the record?',
+                    cancelButtonText: "Cancel",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Proceed'
+                  }).then(function(result) {
+                    // In case of deletion confirmation, submit the form
+                    if (result.isConfirmed) {
+                      form.submit();
+                      Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Added Successfully',
+                        showConfirmButton: false,
+                        timer: 1000
+                      });
+                    }
+                  });
+                });
+              });
+            </script>
             </div>
           </div>
         </div>

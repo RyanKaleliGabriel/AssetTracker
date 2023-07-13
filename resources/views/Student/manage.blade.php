@@ -39,27 +39,71 @@
             <table class="table datatable">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">UiD</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Admission Number</th>
-                  <th scope="col">Update Action</th>
-                  <th scope="col"> Delete Action</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
+                @foreach($students as $student)
                 <tr>
-                  <th scope="row">1</th>
-                  <td>Ryan Kaleli</td>
-                  <td>1042462</td>
+                  <th scope="row">{{$student->id}}</th>
+                  <td>{{$student->name}}</td>
                   <td>
-                    <a href="{{route('editstudent')}}">
+                    <a href="{{route('editstudent', $student->id)}}">
                       <button type="button" class="btn btn-info"><i class="bi bi-pen"></i></button>
                     </a>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                    <form action="{{route('deletestudent', $student->id)}}" method="post">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-danger confirm"><i class="bi bi-trash"></i></button>
+                    </form>
+                    <script src="sweetalert2.all.min.js"></script>
+                    <script>
+                      // Get all elements with the 'confirm' class
+                      var confirmButtons = document.getElementsByClassName('confirm');
+
+                      // Iterate over each confirm button
+                      Array.from(confirmButtons).forEach(function(button) {
+                        button.addEventListener('click', function(event) {
+                          // Get the closest form to the button
+                          var form = button.closest('form');
+
+                          // Prevent the default form submission
+                          event.preventDefault();
+
+                          // Configure SweetAlert alert as you wish
+                          Swal.fire({
+                            title: 'Are you sure you want to delete?',
+                            text: "You won't be able to revert this!",
+                            cancelButtonText: "Cancel",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Delete'
+                          }).then(function(result) {
+                            // In case of deletion confirmation, submit the form
+                            if (result.isConfirmed) {
+                              form.submit();
+                              Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Deleted Successfully',
+                                showConfirmButton: false,
+                                timer: 1500
+                              });
+                            }
+                          });
+                        });
+                      });
+                    </script>
                   </td>
                 </tr>
+                @endforeach
               </tbody>
             </table>
             <!-- End Table with stripped rows -->

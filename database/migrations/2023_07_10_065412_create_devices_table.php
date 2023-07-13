@@ -18,8 +18,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('modelnumber');
-            $table->string('type');
-            $table->string('studentid');
+            $table->string('category_id');
+            $table->string('student_id');
         });
     }
 

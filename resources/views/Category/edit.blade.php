@@ -3,16 +3,16 @@
 @section('content')
 
 
-
 <main id="main" class="main">
 
 <div class="pagetitle">
-  <h1>Form Layouts</h1>
+  <h1>Device Types</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-      <li class="breadcrumb-item">Forms</li>
-      <li class="breadcrumb-item active">Layouts</li>
+      <li class="breadcrumb-item">Device</li>
+      <li class="breadcrumb-item active">Category</li>
+      <li class="breadcrumb-item active">Update</li>
     </ol>
   </nav>
 </div><!-- End Page Title -->
@@ -22,17 +22,58 @@
 
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Add new Device</h5>
+          <h5 class="card-title">Update {{$category->name}}</h5>
 
           <!-- Multi Columns Form -->
-          <form class="row g-3">
+          <form class="row g-3" method="post" action="{{route('updatecategory', $category->id)}}">
+          @csrf
+          @method('PUT')
             <div class="col-md-12">
-              <input placeholder="Device Type Name..." type="text" class="form-control" id="inputName5">
+              <input value="{{$category->name}}" name="devicetype" placeholder="Device Type Name..." type="text" class="form-control" id="inputName5">
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-outline-primary">Add Device</button>
+              <button style="float: right;" type="submit" class="btn btn-outline-primary confirm">Update</button>
             </div>
           </form><!-- End Multi Columns Form -->
+          <script src="sweetalert2.all.min.js"></script>
+            <script>
+              // Get all elements with the 'confirm' class
+              var confirmButtons = document.getElementsByClassName('confirm');
+
+              // Iterate over each confirm button
+              Array.from(confirmButtons).forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                  // Get the closest form to the button
+                  var form = button.closest('form');
+
+                  // Prevent the default form submission
+                  event.preventDefault();
+
+                  // Configure SweetAlert alert as you wish
+                  Swal.fire({
+                    title: 'Proceed to update the record?',
+                    cancelButtonText: "Cancel",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Proceed'
+                  }).then(function(result) {
+                    // In case of deletion confirmation, submit the form
+                    if (result.isConfirmed) {
+                      form.submit();
+                      Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Updated Successfully',
+                        showConfirmButton: false,
+                        timer: 1000
+                      });
+                    }
+                  });
+                });
+              });
+            </script>
         </div>
       </div>
     </div>

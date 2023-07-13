@@ -3,44 +3,87 @@
 @section('content')
 
 
+
+
+
 <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Form Layouts</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Forms</li>
-          <li class="breadcrumb-item active">Layouts</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
-    <section class="section">
-      <div class="row">
-        <div class="col">
+  <div class="pagetitle">
+    <h1>Department Module</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Department</li>
+        <li class="breadcrumb-item active">Update</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <section class="section">
+    <div class="row">
+      <div class="col">
 
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Add new Student</h5>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Update {{$department->name}}</h5>
 
-              <!-- Multi Columns Form -->
-              <form class="row g-3">
-                <div class="col-md-12">
-                  <input placeholder="Department Name..." type="text" class="form-control" id="inputName5">
-                </div>
+            <!-- Multi Columns Form -->
+            <form class="row g-3" action="{{route('updatedepartment', $department->id)}}" method="post">
+              @csrf
+              @method('PUT')
+              <div class="col-md-12">
+                <input value="{{$department->name}}" placeholder="Enter Department Name..." name="deptname" type="text" class="form-control" id="inputName5">
+              </div>
+              <div class="text-center">
+                <button style="float: right;" type="submit" class="btn btn-outline-primary confirm">Update</button>
+              </div>
+            </form><!-- End Multi Columns Form -->
+            <script src="sweetalert2.all.min.js"></script>
+            <script>
+              // Get all elements with the 'confirm' class
+              var confirmButtons = document.getElementsByClassName('confirm');
 
-                <div class="text-center">
-                  <button type="submit" class="btn btn-outline-primary">Register</button>
-                </div>
-              </form><!-- End Multi Columns Form -->
-            </div>
+              // Iterate over each confirm button
+              Array.from(confirmButtons).forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                  // Get the closest form to the button
+                  var form = button.closest('form');
+
+                  // Prevent the default form submission
+                  event.preventDefault();
+
+                  // Configure SweetAlert alert as you wish
+                  Swal.fire({
+                    title: 'Proceed to update the record?',
+                    cancelButtonText: "Cancel",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Proceed'
+                  }).then(function(result) {
+                    // In case of deletion confirmation, submit the form
+                    if (result.isConfirmed) {
+                      form.submit();
+                      Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Updated Successfully',
+                        showConfirmButton: false,
+                        timer: 1000
+                      });
+                    }
+                  });
+                });
+              });
+            </script>
           </div>
         </div>
-
-
       </div>
-    </section>
 
-  </main><!-- End #main -->
 
-  @endsection
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+@endsection

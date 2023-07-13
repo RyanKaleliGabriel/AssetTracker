@@ -29,21 +29,18 @@
            <table class="table datatable">
             <thead>
               <tr>
-                <th scope="col">#</th>
+                <th scope="col">UiD</th>
                 <th scope="col">Name</th>
-                <th scope="col">Position</th>
-                <th scope="col">Age</th>
-                <th scope="col">Start Date</th>
+
               </tr>
             </thead>
             <tbody>
+              @foreach($departments as $department)
               <tr>
-                <th scope="row">1</th>
-                <td>Brandon Jacob</td>
-                <td>Designer</td>
-                <td>28</td>
-                <td>2016-05-25</td>
+                <th scope="row">{{$department->id}}</th>
+                <td>{{$department->name}}</td>
               </tr>
+              @endforeach
             </tbody>
           </table>
           <!-- End Table with stripped rows -->

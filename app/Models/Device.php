@@ -12,8 +12,8 @@ class Device extends Model
 
     protected $fillable = [
         'modelnumber',
-        'type',
-        'studentid',
+        'category_id',
+        'student_id',
     ];
 
     public function student(): BelongsTo
