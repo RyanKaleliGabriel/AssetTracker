@@ -25,12 +25,15 @@
             <h5 class="card-title">Update {{$student->name}}</h5>
 
             <!-- Multi Columns Form -->
-            <form class="row g-3" action="{{route('updatestudent', $student->id)}}" method="post">
+            <form class="row g-3" action="{{route('updatestudent', $student->id)}}" method="post" id="deviceForm">
               @csrf
               @method('PUT')
               <div class="col-md-12">
-                <input value="{{$student->name}}" placeholder="Enter student full name..." type="text" name="stdname" class="form-control" id="inputName5">
+                <input value="{{$student->name}}" placeholder="Enter student full name..." type="text" name="name" class="form-control" id="inputName5">
               </div>
+                @error('name')
+                <span class="text-danger">{{ $message }}</span>
+                @enderror
               <div class="col-md-12">
                 <label for="inputState" class="form-label">Department</label>
                 <select name="deptid" id="inputState" class="form-control js-example-responsive">
@@ -39,6 +42,9 @@
                   <option value="{{$department->id}}">{{$department->name}}</option>
                   @endforeach
                 </select>
+                @error('deptid')
+                <span class="text-danger">{{ $message }}</span>
+                @enderror
               </div>
               <div class="text-center">
                 <button type="submit" style="float: right;" class="btn btn-outline-primary confirm">Update</button>
@@ -46,41 +52,34 @@
             </form><!-- End Multi Columns Form -->
             <script src="sweetalert2.all.min.js"></script>
             <script>
-              // Get all elements with the 'confirm' class
-              var confirmButtons = document.getElementsByClassName('confirm');
+              // Get the device form element
+              var deviceForm = document.getElementById('deviceForm');
 
-              // Iterate over each confirm button
-              Array.from(confirmButtons).forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                  // Get the closest form to the button
-                  var form = button.closest('form');
+              // Submit event listener for the form
+              deviceForm.addEventListener('submit', function(event) {
+                // Prevent the form from submitting
+                event.preventDefault();
 
-                  // Prevent the default form submission
-                  event.preventDefault();
-
-                  // Configure SweetAlert alert as you wish
+                // Check if the form is valid
+                if (deviceForm.checkValidity()) {
+                  // Configure SweetAlert alert
                   Swal.fire({
                     title: 'Proceed to update the record?',
-                    cancelButtonText: "Cancel",
+                    cancelButtonText: 'Cancel',
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Proceed'
                   }).then(function(result) {
-                    // In case of deletion confirmation, submit the form
+                    // If the user confirms, submit the form
                     if (result.isConfirmed) {
-                      form.submit();
-                      Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Updated Successfully',
-                        showConfirmButton: false,
-                        timer: 1000
-                      });
+                      deviceForm.submit();
                     }
                   });
-                });
+                } else {
+                  deviceForm.classList.add('was-validated');
+                }
               });
             </script>
 

@@ -9,6 +9,8 @@ use App\Models\Student;
 use App\Models\Device;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
+
 
 class AssetTrackerController extends Controller
 {
@@ -40,24 +42,42 @@ class AssetTrackerController extends Controller
 
     public function postdevice(Request $request)
     {
-        $device = Device::create([
-            'modelnumber'=>$request->modelnumber,
-            'student_id'=>$request->studentid,
-            'category_id'=>$request->categoryid
+        $validator = Validator::make($request->all(), [
+            'modelnumber' => 'required|unique:devices',
+            'studentid' => 'required',
+            'categoryid' => 'required',
         ]);
 
-        return Redirect::route('managedevices');
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+            $device = Device::create([
+                'modelnumber'=>$request->modelnumber,
+                'student_id'=>$request->studentid,
+                'category_id'=>$request->categoryid
+            ]);
+            return Redirect::route('managedevices')->with('success', 'Device added successfully');
+     
     }
 
     public function updatedevice(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'modelnumber' => 'required|unique:devices',
+            'studentid' => 'required',
+            'categoryid' => 'required',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $device = Device::query()->where('id', $id)->update([
             'modelnumber'=>$request->modelnumber,
             'category_id'=>$request->categoryid,
             'student_id'=>$request->studentid
         ]);
 
-        return Redirect::route('managedevices');
+        return Redirect::route('managedevices')->with('success', 'Device added successfully');;
     }
 
     public function deletedevice($id)
@@ -98,17 +118,32 @@ class AssetTrackerController extends Controller
 
     public function postdepartment(Request $request)
     {
-        $department = Department::create([
-            'name'=>$request->deptname
+        
+        $validator =  Validator::make($request->all(), [
+            'name' => 'required|unique:departments',
         ]);
-
-        return Redirect::route('managedepartments');
+        
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $department = Department::create([
+            'name' => $request->name,
+        ]);
+    
+        return redirect()->route('managedepartments')->with('success', 'Department added successfully.');
     }
 
     public function updatedepartment(Request $request, $id)
     {
+        $validator =  Validator::make($request->all(), [
+            'name' => 'required|unique:departments',
+        ]);
+        
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $department = Department::query()->where('id', $id)->update([
-            'name'=>$request->deptname
+            'name'=>$request->name
         ]);
         return Redirect::route('managedepartments');
     }
@@ -147,16 +182,31 @@ class AssetTrackerController extends Controller
 
     public function poststudent(Request $request)
     {
+        $validator =  Validator::make($request->all(), [
+            'name' => 'required',
+        ]);
+        
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $student = Student::create([
-            'name'=>$request->stdname,
+            'name'=>$request->name,
             'department_id'=>$request->deptid
         ]);
-        return Redirect::route('managestudents');
+        return Redirect::route('managestudents')->with('Success', 'Student Added succesfully');
     }
     public function updatestudent(Request $request, $id)
     {
+        $validator =  Validator::make($request->all(), [
+            'name' => 'required',
+            'deptid'=>'required'
+        ]);
+        
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $student = Student::query()->where('id', $id)->update([
-            'name'=>$request->stdname,
+            'name'=>$request->name,
             'department_id'=>$request->deptid
         ]);
         return Redirect::route('managestudents');
@@ -187,16 +237,31 @@ class AssetTrackerController extends Controller
 
     public function postcategory(Request $request)
     {
-        $category = Category::create([
-            'name'=>$request->devicetype
+        $validator =  Validator::make($request->all(), [
+            'name' => 'required|unique:categories',
+            
         ]);
-        return Redirect::route('managecategories');
+        
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $category = Category::create([
+            'name'=>$request->name
+        ]);
+        return Redirect::route('managecategories')->with('Success', 'Successfully added');
     }
 
     public function updatecategory(Request $request, $id)
     {
+        $validator =  Validator::make($request->all(), [
+            'name' => 'required|unique:categories',
+        ]);
+        
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $category = Category::query()->where('id', $id)->update([
-            'name'=>$request->devicetype
+            'name'=>$request->name
         ]);
         return Redirect::route('managecategories');
     }
