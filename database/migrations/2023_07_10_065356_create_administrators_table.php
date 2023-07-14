@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('password');
-            $table->foreignId('departmentid');
+            $table->foreignId('department_id');
         });
     }
 

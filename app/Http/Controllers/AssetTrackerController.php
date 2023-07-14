@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Administrator;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Department;
@@ -10,10 +11,17 @@ use App\Models\Device;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 
 class AssetTrackerController extends Controller
 {
+    public function home()
+    {
+        $students = Student::count();
+        $devices = Device::count();
+        return view('welcome', compact('students', 'devices'));
+    }
     //Start of devices Methods
     public function alldevices()
     {
@@ -55,7 +63,8 @@ class AssetTrackerController extends Controller
             $device = Device::create([
                 'modelnumber'=>$request->modelnumber,
                 'student_id'=>$request->studentid,
-                'category_id'=>$request->categoryid
+                'category_id'=>$request->categoryid,
+    
             ]);
             return Redirect::route('managedevices')->with('success', 'Device added successfully');
      
@@ -273,7 +282,55 @@ class AssetTrackerController extends Controller
     }
     //end of Category Methods
 
+    public function signup()
+    {
+        $departments = Department::all();
+        return view('Administrator.signup', compact('departments'));
+    }
+    public function signin()
+    {
+        return view('Administrator.signin');
+    }
 
+    public function storeadmin(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'name'=>'required',
+            'email'=>'required|unique:administrators',
+            'password'=>'required',
+            'department_id'=>'required',
+        ]);
 
+        if($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $admin = Administrator::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'password'=>bcrypt($request->password),
+            'department_id'=>$request->department_id
+        ]);
+        return Redirect::route('home')->with('success', 'Successfully added to database');
+    }
+
+    public function authadmin(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication successful
+            return Redirect::route('home')->with('success', 'Successfully added to database');
+        } else {
+            // Authentication failed
+            return redirect()->back()->withErrors('Invalid credentials. Please try again.');
+        }
+    }
+
+    public function signout()
+    {
+        Auth::logout();
+        return Redirect::route('signin');
+    }
 
 }

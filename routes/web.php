@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-
+Route::get('/', [AssetTrackerController::class, 'home'])->name('home');
 Route::get('devices', [AssetTrackerController::class, 'alldevices'])->name('devices');
 Route::get('managedevices', [AssetTrackerController::class, 'managedevices'])->name('managedevices');
 Route::get('adddevice', [AssetTrackerController::class , 'adddevice'])->name('adddevice');
@@ -50,3 +50,10 @@ Route::get('category/{category}/edit', [AssetTrackerController::class, 'editcate
 Route::post('postcategory', [AssetTrackerController::class, 'postcategory'])->name('postcategory');
 Route::put('category/{category}', [AssetTrackerController::class, 'updatecategory'])->name('updatecategory');
 Route::delete('category/{category}', [AssetTrackerController::class, 'deletecategory'])->name('deletecategory');
+
+
+Route::get('signup', [AssetTrackerController::class, 'signup'])->name('signup');
+Route::get('signin', [AssetTrackerController::class, 'signin'])->name('signin');
+Route::post('storeadmin', [AssetTrackerController::class, 'storeadmin'])->name('storeadmin');
+Route::post('authadmin', [AssetTrackerController::class, 'authadmin'])->name('authadmin');
+Route::post('signout', [AssetTrackerController::class, 'signout'])->middleware('auth')->name('signout');

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('modelnumber');
             $table->string('category_id');
             $table->string('student_id');
+            $table->string('qrcode_path');
         });
     }
 

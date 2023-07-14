@@ -5,15 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Administrator extends Model
+
+class Administrator extends Authenticatable
 {
     use HasFactory;
+    protected $table = 'administrators';
 
     protected $fillable = [
         'name',
-        'departmentid',
+        'department_id',
         'email',
+        'password'
     ];
 
     public function department(): BelongsTo

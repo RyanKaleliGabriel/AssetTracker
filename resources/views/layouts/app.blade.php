@@ -42,7 +42,7 @@
 
 <body>
 
-@include('sweetalert::alert')
+    @include('sweetalert::alert')
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -68,14 +68,15 @@
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                        @if (Auth::check())
+                        <span class="d-none d-md-block dropdown-toggle ps-2">Welcome, {{ Auth::user()->name }}</span>
+                        @endif
                     </a><!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Kevin Anderson</h6>
-                            <span>Web Designer</span>
+                            <h6>{{ Auth::user()->email }}</h6>
+                            <span>System Administrator</span>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
@@ -160,35 +161,45 @@
                     </li>
                 </ul>
             </li><!-- End Tables Nav -->
-
-
-
+            
             <li class="nav-heading">Administrator</li>
-
+            @if (!Auth::check())
             <li class="nav-item">
-                <a class="nav-link collapsed" href="users-profile.html">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Logout</span>
+                <a class="nav-link collapsed" href="{{route('signin')}}">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Login</span>
                 </a>
             </li><!-- End Profile Page Nav -->
+            @endif
+            @if (Auth::check())
+            <li class="nav-item">
+                <form action="{{route('signout')}}" method="post">
+                    @csrf
+                    <button type="submit" class="nav-link collapsed" href="">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </li><!-- End Profile Page Nav -->
+            @endif
         </ul>
 
     </aside><!-- End Sidebar-->
 
     @yield('content')
-   
+
 
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>Ryan</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
             <!-- All the links in the footer should remain intact. -->
             <!-- You can delete the links only if you purchased the pro version. -->
             <!-- Licensing information: https://bootstrapmade.com/license/ -->
             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            Designed by <a href="https://bootstrapmade.com/">Ryan Kaleli</a>
         </div>
     </footer><!-- End Footer -->
 
