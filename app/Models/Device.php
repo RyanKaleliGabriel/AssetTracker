@@ -14,7 +14,7 @@ class Device extends Model
         'modelnumber',
         'category_id',
         'student_id',
-        'qrcode_path'
+        
     ];
 
     public function student(): BelongsTo

@@ -39,6 +39,7 @@
                   <th scope="col">UiD</th>
                   <th scope="col">Model Number</th>
                   <th scope="col">Type</th>
+                  <th scope="col">QR Code</th>
                   <th scope="col">Action</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -50,9 +51,20 @@
                   <td>{{$device->modelnumber}}</td>
                   <td>{{$device->category->name}}</td>
                   <td>
+                  <button type="button" class="btn btn-light">
+                    <i class="bi bi-upc-scan"></i>
+                    </button>
+                  </td>
+                  <td>
+                    {!! $data !!}
+                  </td>
+                  <td>
                     <a href="{{route('editdevice', $device->id)}}">
                       <button type="button" class="btn btn-info"><i class="bi bi-pen"></i></button>
                     </a>
+                  </td>
+                  <td>
+                    
                   </td>
                   <td>
                     <form action="{{route('deletedevice', $device->id)}}" method="post">

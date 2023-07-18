@@ -13,6 +13,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 class AssetTrackerController extends Controller
 {
@@ -32,7 +34,8 @@ class AssetTrackerController extends Controller
     public function managedevices()
     {
         $devices = Device::all();
-        return view('Devices.manage', compact('devices'));
+        $data= QrCode::generate('Welcome to Makitweb');
+        return view('Devices.manage', compact('devices', 'data'));
     }
     public function adddevice()
     {
@@ -64,8 +67,11 @@ class AssetTrackerController extends Controller
                 'modelnumber'=>$request->modelnumber,
                 'student_id'=>$request->studentid,
                 'category_id'=>$request->categoryid,
-    
             ]);
+
+            QrCode::format('png')->generate('Welcome to Makitweb', public_path('qrcodes/qrcode.png') );
+            $device->save();
+
             return Redirect::route('managedevices')->with('success', 'Device added successfully');
      
     }
@@ -311,7 +317,7 @@ class AssetTrackerController extends Controller
             'password'=>bcrypt($request->password),
             'department_id'=>$request->department_id
         ]);
-        return Redirect::route('home')->with('success', 'Successfully added to database');
+        return Redirect::route('signin')->with('success', 'Successfully added to database');
     }
 
     public function authadmin(Request $request)

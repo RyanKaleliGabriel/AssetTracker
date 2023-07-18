@@ -49,10 +49,11 @@
                 <tr>
                   <th scope="row">{{$department->id}}</th>
                   <td>{{$department->name}}</td>
+
                   <td>
-                    <a href="{{route('editdepartment', $department->id)}}">
+                  <a href="{{route('editdepartment', $department->id)}}">
                       <button type="button" class="btn btn-info"><i class="bi bi-pen"></i></button>
-                    </a>
+                  </a>
                   </td>
                   <td>
                     <form action="{{route('deletedepartment', $department->id)}}" method="post">
