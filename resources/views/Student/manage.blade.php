@@ -41,6 +41,7 @@
                 <tr>
                   <th scope="col">UiD</th>
                   <th scope="col">Name</th>
+                  <th scope="col">Department</th>
                   <th scope="col">Action</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -50,6 +51,7 @@
                 <tr>
                   <th scope="row">{{$student->id}}</th>
                   <td>{{$student->name}}</td>
+                  <td>{{$student->department->name}}</td>
                   <td>
                     <a href="{{route('editstudent', $student->id)}}">
                       <button type="button" class="btn btn-info"><i class="bi bi-pen"></i></button>

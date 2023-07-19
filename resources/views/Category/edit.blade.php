@@ -32,7 +32,7 @@
               <input value="{{$category->name}}" name="name" placeholder="Device Type Name..." type="text" class="form-control" id="inputName5">
             </div>
             @error('name')
-                <span class="text-danger">{{ $message }} <a href="{{route('managecategories')}}">Delete</a> or <a href="{{route('addcategory')}}">add</a> a new One</span>
+                <span class="text-danger">{{ $message }} </span>
               @enderror
             <div class="text-center">
               <button style="float: right;" type="submit" class="btn btn-outline-primary confirm">Update</button>

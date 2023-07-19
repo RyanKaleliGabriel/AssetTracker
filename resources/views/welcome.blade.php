@@ -166,7 +166,7 @@
           </div>
 
           <div class="card-body pb-0">
-            <h5 class="card-title">Website Traffic <span>| Today</span></h5>
+            <!-- <h5 class="card-title">Website Traffic <span>| Today</span></h5>
 
             <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
@@ -199,7 +199,9 @@
                     labelLine: {
                       show: false
                     },
-                    data: [{
+                    data: [
+                      
+                      {
                         value: 1048,
                         name: 'Search Engine'
                       },
@@ -223,7 +225,8 @@
                   }]
                 });
               });
-            </script>
+            </script> -->
+            {!! $chart->container() !!}
 
           </div>
         </div><!-- End Website Traffic -->

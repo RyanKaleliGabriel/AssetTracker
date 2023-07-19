@@ -19,7 +19,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/', [AssetTrackerController::class, 'home'])->name('home');
-Route::get('devices', [AssetTrackerController::class, 'alldevices'])->name('devices');
 Route::get('managedevices', [AssetTrackerController::class, 'managedevices'])->name('managedevices');
 Route::get('adddevice', [AssetTrackerController::class , 'adddevice'])->name('adddevice');
 Route::get('device/{device}/edit', [AssetTrackerController::class, 'editdevice'])->name('editdevice');
@@ -28,7 +27,7 @@ Route::put('device/{device}', [AssetTrackerController::class, 'updatedevice'])->
 Route::delete('device/{device}', [AssetTrackerController::class, 'deletedevice'])->name('deletedevice');
 
 
-Route::get('departments', [AssetTrackerController::class, 'alldepartments'])->name('departments');
+
 Route::get('managedepartments', [AssetTrackerController::class , 'managedepartments'])->name('managedepartments');
 Route::get('adddepartment', [AssetTrackerController::class, 'adddepartment'])->name('adddepartment');
 Route::get('department/{department}/edit', [AssetTrackerController::class, 'editdepartment'])->name('editdepartment');
@@ -36,7 +35,7 @@ Route::post('postdepartment', [AssetTrackerController::class, 'postdepartment'])
 Route::put('department/{department}', [AssetTrackerController::class, 'updatedepartment'])->name('updatedepartment');
 Route::delete('department/{department}', [AssetTrackerController::class, 'deletedepartment'])->name('deletedepartment');
 
-Route::get('students', [AssetTrackerController::class, 'allstudents'])->name('students');
+
 Route::get('managestudents', [AssetTrackerController::class, 'managestudents'])->name('managestudents');
 Route::get('addstudent', [AssetTrackerController::class, 'addstudent'])->name('addstudent');
 Route::get('student/{student}/edit', [AssetTrackerController::class, 'editstudent'])->name('editstudent');
@@ -57,3 +56,5 @@ Route::get('signin', [AssetTrackerController::class, 'signin'])->name('signin');
 Route::post('storeadmin', [AssetTrackerController::class, 'storeadmin'])->name('storeadmin');
 Route::post('authadmin', [AssetTrackerController::class, 'authadmin'])->name('authadmin');
 Route::post('signout', [AssetTrackerController::class, 'signout'])->middleware('auth')->name('signout');
+
+Route::get('download/{device}', [AssetTrackerController::class, 'download'])->name('download');

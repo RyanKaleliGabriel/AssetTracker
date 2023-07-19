@@ -31,7 +31,7 @@
                 <input value="{{$device->modelnumber}}" placeholder="Enter Device Model Number..." type="text" name="modelnumber" class="form-control" id="inputName5">
               </div>
               @error('modelnumber')
-                <span class="text-danger">{{ $message }} <a href="{{route('managedevices')}}">Delete</a> or <a href="{{route('adddevice')}}">add</a> a new One</span>
+                <span class="text-danger">{{ $message }}</span>
                 @enderror
               <div class="col-md-6">
                 <label for="inputState" class="form-label">Choose Student Id</label>

@@ -38,8 +38,10 @@
                 <tr>
                   <th scope="col">UiD</th>
                   <th scope="col">Model Number</th>
-                  <th scope="col">Type</th>
+                  <th scope="col">Device Category</th>
+                  <th scope="col">Device Owner</th>
                   <th scope="col">QR Code</th>
+                  <th scope="col">Save QR</th>
                   <th scope="col">Action</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -50,21 +52,21 @@
                   <th scope="row">{{$device->id}}</th>
                   <td>{{$device->modelnumber}}</td>
                   <td>{{$device->category->name}}</td>
+                  <td>{{$device->student->name}}</td>
                   <td>
-                  <button type="button" class="btn btn-light">
-                    <i class="bi bi-upc-scan"></i>
-                    </button>
+                    <img src="{{ asset('qrcodes/' . $device->modelnumber . '.png') }}" alt="#" width="50%" height="50%" />
                   </td>
                   <td>
-                    {!! $data !!}
+                  <a href="{{route('download', $device->id)}}">
+                    <button type="button" class="btn btn-dark">
+                      <i class="bi bi-download"></i>
+                    </button>
+                    </a>
                   </td>
                   <td>
                     <a href="{{route('editdevice', $device->id)}}">
                       <button type="button" class="btn btn-info"><i class="bi bi-pen"></i></button>
                     </a>
-                  </td>
-                  <td>
-                    
                   </td>
                   <td>
                     <form action="{{route('deletedevice', $device->id)}}" method="post">

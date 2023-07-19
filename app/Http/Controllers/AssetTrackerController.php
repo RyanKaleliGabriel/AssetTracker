@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
+use App\Charts\pie;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
@@ -20,9 +20,12 @@ class AssetTrackerController extends Controller
 {
     public function home()
     {
+        $chart = new pie;
+        $chart->labels(['Computer Science', 'law','Chemistry']);
+        $chart->dataset(' DepartmentandDevices', 'pie', [123, 67, 30]);
         $students = Student::count();
         $devices = Device::count();
-        return view('welcome', compact('students', 'devices'));
+        return view('welcome', compact('students', 'devices','chart'));
     }
     //Start of devices Methods
     public function alldevices()
@@ -34,7 +37,7 @@ class AssetTrackerController extends Controller
     public function managedevices()
     {
         $devices = Device::all();
-        $data= QrCode::generate('Welcome to Makitweb');
+        $data = QrCode::generate('Welcome to Makitweb');
         return view('Devices.manage', compact('devices', 'data'));
     }
     public function adddevice()
@@ -48,7 +51,7 @@ class AssetTrackerController extends Controller
         $categories = Category::all();
         $students = Student::all();
         $device = Device::query()->where('id', $id)->first();
-        return view('Devices.edit', compact('device','students','categories'));
+        return view('Devices.edit', compact('device', 'students', 'categories'));
     }
 
     public function postdevice(Request $request)
@@ -59,39 +62,69 @@ class AssetTrackerController extends Controller
             'categoryid' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-            $device = Device::create([
-                'modelnumber'=>$request->modelnumber,
-                'student_id'=>$request->studentid,
-                'category_id'=>$request->categoryid,
-            ]);
+        $student = Student::find($request->studentid);
+        if (!$student) {
+            // Handle error if the student is not found
+            return redirect()->back()->withErrors(['studentid' => 'Invalid student ID'])->withInput();
+        }
 
-            QrCode::format('png')->generate('Welcome to Makitweb', public_path('qrcodes/qrcode.png') );
-            $device->save();
+        $device = Device::create([
+            'modelnumber' => $request->modelnumber,
+            'student_id' => $request->studentid,
+            'category_id' => $request->categoryid,
+        ]);
+        $studentname = $student->name;
+        $devicename = $request->modelnumber;
+        $qrcodecontent = "Student Name: $studentname\n Device Model Number: $devicename\n Student ID: $request->studentid";
+        $qrCodePath = 'qrcodes/' . $devicename . '.png';
 
-            return Redirect::route('managedevices')->with('success', 'Device added successfully');
-     
+        QrCode::format('png')->generate($qrcodecontent, public_path($qrCodePath));
+        $device->qrcode_path = $qrCodePath;
+        $device->save();
+
+        return Redirect::route('managedevices')->with('success', 'Device added successfully');
     }
 
     public function updatedevice(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'modelnumber' => 'required|unique:devices',
+            'modelnumber' => 'required|unique:devices,modelnumber,'. $id,
             'studentid' => 'required',
             'categoryid' => 'required',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $device = Device::query()->where('id', $id)->update([
-            'modelnumber'=>$request->modelnumber,
-            'category_id'=>$request->categoryid,
-            'student_id'=>$request->studentid
-        ]);
+        $device = Device::find($id);
 
+        if(!$device)
+        {
+            return redirect()->back()->withErrors(['device'=>'Device not found']);
+        }
+
+        $device->modelnumber = $request->modelnumber;
+        $device->category_id = $request->categoryid;
+        $device->student_id = $request->studentid;
+        $device->save();
+
+        $student = Student::find($request->studentid);
+        if (!$student) {
+            // Handle error if the student is not found
+            return redirect()->back()->withErrors(['studentid' => 'Invalid student ID'])->withInput();
+        }
+
+        $studentname = $student->name;
+        $devicename = $request->modelnumber;
+        $qrcodecontent = "Student Name: $studentname\n Device Model Number: $devicename\n Student ID: $request->studentid";
+        $qrCodePath = 'qrcodes/' . $devicename . '.png';
+
+        QrCode::format('png')->generate($qrcodecontent, public_path($qrCodePath));
+        $device->qrcode_path = $qrCodePath;
+        $device->save();
         return Redirect::route('managedevices')->with('success', 'Device added successfully');;
     }
 
@@ -101,8 +134,6 @@ class AssetTrackerController extends Controller
         $devicetobedeleted = Device::query()->where('id', $id)->first();
         $device = Device::query()->where('id', $id)->delete();
         return redirect()->route('managedevices');
- 
-
     }
 
 
@@ -133,32 +164,32 @@ class AssetTrackerController extends Controller
 
     public function postdepartment(Request $request)
     {
-        
+
         $validator =  Validator::make($request->all(), [
             'name' => 'required|unique:departments',
         ]);
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $department = Department::create([
             'name' => $request->name,
         ]);
-    
+
         return redirect()->route('managedepartments')->with('success', 'Department added successfully.');
     }
 
     public function updatedepartment(Request $request, $id)
     {
         $validator =  Validator::make($request->all(), [
-            'name' => 'required|unique:departments',
+            'name' => 'required|unique:departments,name'. $id,
         ]);
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $department = Department::query()->where('id', $id)->update([
-            'name'=>$request->name
+            'name' => $request->name
         ]);
         return Redirect::route('managedepartments');
     }
@@ -200,13 +231,13 @@ class AssetTrackerController extends Controller
         $validator =  Validator::make($request->all(), [
             'name' => 'required',
         ]);
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $student = Student::create([
-            'name'=>$request->name,
-            'department_id'=>$request->deptid
+            'name' => $request->name,
+            'department_id' => $request->deptid
         ]);
         return Redirect::route('managestudents')->with('Success', 'Student Added succesfully');
     }
@@ -214,15 +245,15 @@ class AssetTrackerController extends Controller
     {
         $validator =  Validator::make($request->all(), [
             'name' => 'required',
-            'deptid'=>'required'
+            'deptid' => 'required'
         ]);
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $student = Student::query()->where('id', $id)->update([
-            'name'=>$request->name,
-            'department_id'=>$request->deptid
+            'name' => $request->name,
+            'department_id' => $request->deptid
         ]);
         return Redirect::route('managestudents');
     }
@@ -254,14 +285,14 @@ class AssetTrackerController extends Controller
     {
         $validator =  Validator::make($request->all(), [
             'name' => 'required|unique:categories',
-            
+
         ]);
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $category = Category::create([
-            'name'=>$request->name
+            'name' => $request->name
         ]);
         return Redirect::route('managecategories')->with('Success', 'Successfully added');
     }
@@ -269,14 +300,14 @@ class AssetTrackerController extends Controller
     public function updatecategory(Request $request, $id)
     {
         $validator =  Validator::make($request->all(), [
-            'name' => 'required|unique:categories',
+            'name' => 'required|unique:categories'. $id,
         ]);
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $category = Category::query()->where('id', $id)->update([
-            'name'=>$request->name
+            'name' => $request->name
         ]);
         return Redirect::route('managecategories');
     }
@@ -300,22 +331,21 @@ class AssetTrackerController extends Controller
 
     public function storeadmin(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'name'=>'required',
-            'email'=>'required|unique:administrators',
-            'password'=>'required',
-            'department_id'=>'required',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|unique:administrators',
+            'password' => 'required',
+            'department_id' => 'required',
         ]);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $admin = Administrator::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>bcrypt($request->password),
-            'department_id'=>$request->department_id
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'department_id' => $request->department_id
         ]);
         return Redirect::route('signin')->with('success', 'Successfully added to database');
     }
@@ -339,4 +369,18 @@ class AssetTrackerController extends Controller
         return Redirect::route('signin');
     }
 
+    public function download($id)
+    {
+        $device = Device::find($id);
+        if (!$device) {
+            abort(404);
+        }
+        $qrimagepath = public_path($device->qrcode_path);
+
+        $headers = [
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'attachment; filename="qr_code.png"',
+        ];
+        return response()->download($qrimagepath, 'qr_code.png', $headers);
+    }
 }

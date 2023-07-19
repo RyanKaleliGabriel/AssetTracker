@@ -109,11 +109,7 @@
                     <i class="bi bi-power"></i><span>Devices</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="{{route('devices')}}">
-                            <i class="bi bi-power"></i><span>All</span>
-                        </a>
-                    </li>
+
                     <li>
                         <a href="{{route('managecategories')}}">
                             <i class="bi bi-circle"></i><span>Category</span>
@@ -134,11 +130,6 @@
                 </a>
                 <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="{{route('students')}}">
-                            <i class="bi bi-circle"></i><span>All</span>
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{route('managestudents')}}">
                             <i class="bi bi-circle"></i><span>Manage</span>
                         </a>
@@ -151,11 +142,7 @@
                     <i class="bi bi-diagram-3"></i><span>Department</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="{{route('departments')}}">
-                            <i class="bi bi-circle"></i><span>All</span>
-                        </a>
-                    </li>
+
                     <li>
                         <a href="{{route('managedepartments')}}">
                             <i class="bi bi-circle"></i><span>Manage</span>
@@ -219,6 +206,8 @@
     <script src="{{asset('/assets/vendor/php-email-form/validate.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js" charset="utf-8"></script>
+    {!! $chart->script() !!}
 
     <!-- Template Main JS File -->
     <script src="{{asset('assets/js/main.js')}}"></script>
