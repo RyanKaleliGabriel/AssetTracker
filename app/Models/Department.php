@@ -26,11 +26,4 @@ class Department extends Model
     {
         return $this->hasMany(Administrator::class);
     }
-
-    public function getNumberofDevicesAttribute()
-    {
-        return $this->students->sum(function($student){
-            return $student->devices->count();
-        });
-    }
 }

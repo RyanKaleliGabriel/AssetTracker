@@ -18,34 +18,34 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/', [AssetTrackerController::class, 'home'])->name('home');
-Route::get('managedevices', [AssetTrackerController::class, 'managedevices'])->name('managedevices');
-Route::get('adddevice', [AssetTrackerController::class , 'adddevice'])->name('adddevice');
-Route::get('device/{device}/edit', [AssetTrackerController::class, 'editdevice'])->name('editdevice');
+Route::get('/', [AssetTrackerController::class, 'home'])->name('home')->middleware('auth');
+Route::get('managedevices', [AssetTrackerController::class, 'managedevices'])->name('managedevices')->middleware('auth');
+Route::get('adddevice', [AssetTrackerController::class , 'adddevice'])->name('adddevice')->middleware('auth');
+Route::get('device/{device}/edit', [AssetTrackerController::class, 'editdevice'])->name('editdevice')->middleware('auth');
 Route::post('postdevice', [AssetTrackerController::class, 'postdevice'])->name('postdevice');
 Route::put('device/{device}', [AssetTrackerController::class, 'updatedevice'])->name('updatedevice');
 Route::delete('device/{device}', [AssetTrackerController::class, 'deletedevice'])->name('deletedevice');
 
 
 
-Route::get('managedepartments', [AssetTrackerController::class , 'managedepartments'])->name('managedepartments');
-Route::get('adddepartment', [AssetTrackerController::class, 'adddepartment'])->name('adddepartment');
-Route::get('department/{department}/edit', [AssetTrackerController::class, 'editdepartment'])->name('editdepartment');
+Route::get('managedepartments', [AssetTrackerController::class , 'managedepartments'])->name('managedepartments')->middleware('auth');
+Route::get('adddepartment', [AssetTrackerController::class, 'adddepartment'])->name('adddepartment')->middleware('auth');
+Route::get('department/{department}/edit', [AssetTrackerController::class, 'editdepartment'])->name('editdepartment')->middleware('auth');
 Route::post('postdepartment', [AssetTrackerController::class, 'postdepartment'])->name('postdepartment');
 Route::put('department/{department}', [AssetTrackerController::class, 'updatedepartment'])->name('updatedepartment');
 Route::delete('department/{department}', [AssetTrackerController::class, 'deletedepartment'])->name('deletedepartment');
 
 
-Route::get('managestudents', [AssetTrackerController::class, 'managestudents'])->name('managestudents');
-Route::get('addstudent', [AssetTrackerController::class, 'addstudent'])->name('addstudent');
-Route::get('student/{student}/edit', [AssetTrackerController::class, 'editstudent'])->name('editstudent');
+Route::get('managestudents', [AssetTrackerController::class, 'managestudents'])->name('managestudents')->middleware('auth');
+Route::get('addstudent', [AssetTrackerController::class, 'addstudent'])->name('addstudent')->middleware('auth');
+Route::get('student/{student}/edit', [AssetTrackerController::class, 'editstudent'])->name('editstudent')->middleware('auth');
 Route::post('poststudent', [AssetTrackerController::class, 'poststudent'])->name('poststudent');
 Route::put('student/{student}', [AssetTrackerController::class, 'updatestudent'])->name('updatestudent');
 Route::delete('student/{student}', [AssetTrackerController::class, 'deletestudent'])->name('deletestudent');
 
-Route::get('categories', [AssetTrackerController::class, 'managecategories'])->name('managecategories');
-Route::get('addcategory', [AssetTrackerController::class, 'addcategory'])->name('addcategory');
-Route::get('category/{category}/edit', [AssetTrackerController::class, 'editcategory'])->name('editcategory');
+Route::get('categories', [AssetTrackerController::class, 'managecategories'])->name('managecategories')->middleware('auth');
+Route::get('addcategory', [AssetTrackerController::class, 'addcategory'])->name('addcategory')->middleware('auth');
+Route::get('category/{category}/edit', [AssetTrackerController::class, 'editcategory'])->name('editcategory')->middleware('auth');
 Route::post('postcategory', [AssetTrackerController::class, 'postcategory'])->name('postcategory');
 Route::put('category/{category}', [AssetTrackerController::class, 'updatecategory'])->name('updatecategory');
 Route::delete('category/{category}', [AssetTrackerController::class, 'deletecategory'])->name('deletecategory');

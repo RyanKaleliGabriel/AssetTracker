@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('category_id');
             $table->string('student_id');
             $table->string('qrcode_path')->nullable();
+            $table->boolean('active')->default(true);
         });
     }
 

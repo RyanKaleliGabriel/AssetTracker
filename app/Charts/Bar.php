@@ -4,7 +4,7 @@ namespace App\Charts;
 
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
-class pie extends Chart
+class Bar extends Chart
 {
     /**
      * Initializes the chart.
@@ -14,7 +14,6 @@ class pie extends Chart
     public function __construct()
     {
         parent::__construct();
-        $this->type('pie');
+        $this->type('bar');
     }
-
 }
